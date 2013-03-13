@@ -59,9 +59,13 @@ public class DeviceHandler {
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("jRemotePi");
 		EntityManager em = factory.createEntityManager();
-		Device deviceToSwitch = em.find(Device.class, entityId);
-		this.switchDevice(deviceToSwitch.getSystemId(),
-				deviceToSwitch.getDeviceId(), state);
+		try {
+			Device deviceToSwitch = em.find(Device.class, entityId);
+			this.switchDevice(deviceToSwitch.getSystemId(),
+					deviceToSwitch.getDeviceId(), state);
+		} finally {
+			em.close();
+		}
 	}
 
 	@PUT
