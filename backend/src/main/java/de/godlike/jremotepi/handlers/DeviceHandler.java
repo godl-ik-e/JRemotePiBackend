@@ -1,13 +1,13 @@
 package de.godlike.jremotepi.handlers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -15,23 +15,64 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.sun.jersey.spi.resource.Singleton;
-
+import de.godlike.jremotepi.business.dtos.Body;
+import de.godlike.jremotepi.business.dtos.Button;
+import de.godlike.jremotepi.business.dtos.DeviceOverview;
+import de.godlike.jremotepi.business.dtos.Element;
+import de.godlike.jremotepi.business.dtos.Footer;
+import de.godlike.jremotepi.business.dtos.NavBar;
+import de.godlike.jremotepi.business.dtos.OverElement;
+import de.godlike.jremotepi.business.dtos.Text;
 import de.godlike.jremotepi.persistence.entities.Device;
 
-@Singleton
 @Path("/device")
 public class DeviceHandler {
 	@SuppressWarnings("unchecked")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Device> listAllDevices() {
+	public DeviceOverview listAllDevices() {
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("jRemotePi");
 		EntityManager em = factory.createEntityManager();
 		try {
 			Query q = em.createQuery("select d from Device d");
-			return q.getResultList();
+			List<Device> allDevices = q.getResultList();
+			// for (Device device : allDevices) {
+			// try {
+			// UriBuilder path =
+			// UriBuilder.fromResource(this.getClass()).path(this.getClass().getMethod("switchDevice",
+			// String.class, String.class)).build("", "");
+			// } catch (IllegalArgumentException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (NoSuchMethodException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// } catch (SecurityException e) {
+			// // TODO Auto-generated catch block
+			// e.printStackTrace();
+			// }
+			// }
+			List<Button> navbarButtons = new ArrayList<Button>();
+			navbarButtons.add(new Button("Geräte", "uri..", "NEWPAGE"));
+			navbarButtons.add(new Button("System Infos", "uri..", "NEWPAGE"));
+
+			List<Element> contentContent = new ArrayList<Element>();
+			contentContent.add(new Text("Test TesT TEST"));
+			contentContent.add(new Button("ContentButton", "uri..", "ACTION"));
+
+			List<Element> footerContent = new ArrayList<Element>();
+			footerContent.add(new Text("Test TesT TEST"));
+			footerContent.add(new Text("Test TesT TEST"));
+
+			List<OverElement> overElement = new ArrayList<OverElement>();
+			overElement.add(new NavBar(navbarButtons));
+			overElement.add(new Body(contentContent));
+			overElement.add(new Footer(footerContent));
+
+			DeviceOverview overview = new DeviceOverview(overElement);
+
+			return overview;
 		} finally {
 			em.close();
 		}
@@ -92,21 +133,21 @@ public class DeviceHandler {
 		}
 	}
 
-	@DELETE
-	@Path("/{deviceId}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Device> deleteDevice(@PathParam("deviceId") Long deviceId) {
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("jRemotePi");
-		EntityManager em = factory.createEntityManager();
-		try {
-			em.getTransaction().begin();
-			em.remove(em.find(Device.class, deviceId));
-			em.getTransaction().commit();
-
-			return this.listAllDevices();
-		} finally {
-			em.close();
-		}
-	}
+	// @DELETE
+	// @Path("/{deviceId}")
+	// @Produces(MediaType.APPLICATION_JSON)
+	// public List<Device> deleteDevice(@PathParam("deviceId") Long deviceId) {
+	// EntityManagerFactory factory = Persistence
+	// .createEntityManagerFactory("jRemotePi");
+	// EntityManager em = factory.createEntityManager();
+	// try {
+	// em.getTransaction().begin();
+	// em.remove(em.find(Device.class, deviceId));
+	// em.getTransaction().commit();
+	//
+	// return this.listAllDevices();
+	// } finally {
+	// em.close();
+	// }
+	// }
 }
