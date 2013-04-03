@@ -1,4 +1,4 @@
-function  DeviceList ($scope, $http) {
+function  DeviceListCtrl ($scope, $http) {
 	
 	this.url = "http://localhost:8080/backend/resources/device/";
 
@@ -9,5 +9,11 @@ function  DeviceList ($scope, $http) {
 	  error(function(data, status, headers, config) {
 		  $scope.result = "fehler";
 	  });
+	
+}
+
+function  DeviceDetailCtrl ($scope, $http) {
+	
+	return
 	
 }
