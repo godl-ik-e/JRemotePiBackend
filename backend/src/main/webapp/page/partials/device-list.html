@@ -1,6 +1,15 @@
 <ul>
-	<li ng-repeat="device in list | filter:query">
-		<button>{{device.name}}</button>
-		<p>{{device.systemId}}</p>
-	</li>
+
+	<div ng-repeat="device in list | filter:query">
+		<p>{{device.name}}</p>
+		<div>
+			<button ng-click="switchOn(device)">ON</button>
+			<button ng-click="switchOff(device)">OFF</button>
+			<button ng-click="editDevice(device)">*</button>
+		</div>
+	</div>
+	<div>
+		<button ng-click="newDevice()">+</button>
+	</div>
+	
 </ul>
