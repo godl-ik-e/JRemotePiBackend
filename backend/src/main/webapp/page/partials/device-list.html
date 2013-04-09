@@ -1,15 +1,16 @@
-<ul>
-
-	<div ng-repeat="device in list | filter:query">
+	<div class="well well-small" ng-repeat="device in list">
 		<p>{{device.name}}</p>
-		<div>
-			<button ng-click="switchOn(device)">ON</button>
-			<button ng-click="switchOff(device)">OFF</button>
-			<button ng-click="editDevice(device)">*</button>
+		<div class="btn-toolbar">
+			<div class="btn-group">
+				<button class="btn" ng-click="switchOn(device)">ON</button>
+				<button class="btn" ng-click="switchOff(device)">OFF</button>
+			</div>
+			<div class="btn-group">
+				<button class="btn" ng-click="editDevice(device)"><i class="icon-wrench"> </i></button>
+			</div>
 		</div>
 	</div>
 	<div>
-		<button ng-click="newDevice()">+</button>
+		<a class="btn" ng-click="newDevice()"><i class="icon-plus"></i></a>
 	</div>
-	
-</ul>
+

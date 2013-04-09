@@ -1,4 +1,4 @@
-angular.module('GoRemotePi', []).
+angular.module('GoRemotePi', ['ui.bootstrap']).
   config(['$routeProvider', function($routeProvider) {
   $routeProvider.
       when('/device', {templateUrl: 'partials/device-list.html',   controller: DeviceListCtrl}).

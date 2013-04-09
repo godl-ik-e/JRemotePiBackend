@@ -32,9 +32,8 @@ function  DeviceListCtrl ($scope, $http, $location) {
 		
 	};
 	
-	this.url = "http://localhost:8080/backend/resources/device";
 
-		$http.get(this.url).
+		$http.get($scope.url).
 	  success(function(data, status, headers, config) {
 	    $scope.list = data.device;
 	  }).
@@ -83,7 +82,8 @@ function  DeviceDetailCtrl ($scope, $routeParams, $http, $location) {
 function  DeviceNewCtrl ($scope, $http, $location) {
 	$scope.url = "http://localhost:8080/backend/resources/device";
 	$scope.save = function(device) {
-		$http.put($scope.url,device).
+		var putdata = "deviceName="+device.name+"&systemId="+device.systemId+"&deviceId="+device.deviceId;
+		$http.put($scope.url,putdata).
 		  success(function(data, status, headers, config) {
 			  $location.path("/device");
 		  }).
